@@ -1,0 +1,21 @@
+/*
+ * printf.c
+ *
+ *  Created on: Nov 9, 2023
+ *      Author: lovro.mileusnic
+ */
+
+
+#include "printf.h"
+#include "usart.h"
+
+
+int printf(const char* msg)
+{
+	int i = 0;
+
+	while (msg[i] != '\0')
+	{
+
+	}
+}

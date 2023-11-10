@@ -1,0 +1,81 @@
+5 /** Power sequence **/
+6 // Set Power Control Register to ‘‘on" state
+7 bytes [0] = 0 x02 ;
+8 bytes [1] = 0 x01 ;
+9 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+10
+11 /** Initialization sequence **/
+12 bytes [0] = 0 x00 ;
+13 bytes [1] = 0 x99 ;
+14 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+15
+16 bytes [0] = 0 x47 ;
+17 bytes [1] = 0 x80 ;
+18 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+19
+20 bytes [0] = 0 x32 ;
+21 bytes [1] = 0 x80 ;
+22 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+23
+24 bytes [0] = 0 x32 ;
+25 bytes [1] = 0 x0 ;
+26 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+27
+28 bytes [0] = 0 x00 ;
+29 bytes [1] = 0 x00 ;
+30 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+31
+32 /** Ctl registers configuration **/
+33 bytes [0] = 0 x04 ;
+34 bytes [1] = 0 xAF ;
+35 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+36
+37 bytes [0] = 0 x0D ;
+38 bytes [1] = 0 x70 ;
+39 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+40
+41 bytes [0] = 0 x05 ;
+42 bytes [1] = 0 x81 ;
+43 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+44
+45 bytes [0] = 0 x06 ;
+46 bytes [1] = 0 x07 ;
+47 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+48
+49 bytes [0] = 0 x0A ;
+50 bytes [1] = 0 x00 ;
+51 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+52
+53 bytes [0] = 0 x27 ;
+54 bytes [1] = 0 x00 ;
+55 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+56
+57 bytes [0] = 0 x1F ;
+20
+58 bytes [1] = 0 x0F ;
+59 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+60
+61 bytes [0] = 0 x22 ;
+62 bytes [1] = 0 xC0 ;
+63 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+64
+65 bytes [0] = 0 x14 ;
+66 bytes [1] = 2;
+67 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+68
+69 bytes [0] = 0 x15 ;
+70 bytes [1] = 2;
+71 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+72
+73 bytes [0] = 0 x20 ;
+74 bytes [1] = 24;
+75 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+76
+77 bytes [0] = 0 x21 ;
+78 bytes [1] = 24;
+79 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;
+80
+81 /** Power up **/
+82 bytes [0] = 0 x02 ;
+83 bytes [1] = 0 x9E ;
+84 HAL_I2C_Master_Transmit (& hi2c1 , AUDIO_I2C_ADDRESS , bytes , 2, 100) ;

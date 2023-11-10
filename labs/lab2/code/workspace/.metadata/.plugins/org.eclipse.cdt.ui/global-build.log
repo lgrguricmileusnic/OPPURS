@@ -1,0 +1,96 @@
+18:09:48 **** Incremental Build of configuration Debug for project Lab_UART ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/printf.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/printf.d" -MT"Core/Src/printf.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/printf.o"
+arm-none-eabi-gcc -o "Lab_UART.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/RA/lovro.mileusnic/fer/OPPURS/labs/lab2/code/Lab_UART/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab_UART.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Lab_UART.elf
+ 
+arm-none-eabi-size   Lab_UART.elf 
+arm-none-eabi-objdump -h -S  Lab_UART.elf  > "Lab_UART.list"
+   text	   data	    bss	    dec	    hex	filename
+  10996	     20	   1668	  12684	   318c	Lab_UART.elf
+Finished building: default.size.stdout
+ 
+Finished building: Lab_UART.list
+ 
+18:09:55 **** Incremental Build of configuration Debug for project Lab_UART ****
+make -j8 all 
+arm-none-eabi-size   Lab_UART.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10996	     20	   1668	  12684	   318c	Lab_UART.elf
+Finished building: default.size.stdout
+ 
+18:11:23 **** Incremental Build of configuration Debug for project Lab_UART ****
+make -j8 all 
+arm-none-eabi-size   Lab_UART.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10996	     20	   1668	  12684	   318c	Lab_UART.elf
+Finished building: default.size.stdout
+ 
+18:14:46 **** Incremental Build of configuration Debug for project Lab_UART ****
+make -j8 all 
+arm-none-eabi-size   Lab_UART.elf 
+   text	   data	    bss	    dec	    hex	filename
+  10996	     20	   1668	  12684	   318c	Lab_UART.elf
+Finished building: default.size.stdout
+ 
+18:19:58 **** Incremental Build of configuration Debug for project Lab_UART ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:80:45: warning: 'loopback' is used uninitialized [-Wuninitialized]
+   80 |                 if (USART1_Dequeue(&c) != 0 && loopback) {
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+arm-none-eabi-gcc -o "Lab_UART.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/RA/lovro.mileusnic/fer/OPPURS/labs/lab2/code/Lab_UART/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab_UART.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Lab_UART.elf
+ 
+arm-none-eabi-size   Lab_UART.elf 
+arm-none-eabi-objdump -h -S  Lab_UART.elf  > "Lab_UART.list"
+   text	   data	    bss	    dec	    hex	filename
+  10992	     20	   1668	  12680	   3188	Lab_UART.elf
+Finished building: default.size.stdout
+ 
+Finished building: Lab_UART.list
+ 
+18:20:52 **** Incremental Build of configuration Debug for project Lab_UART ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Lab_UART.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/RA/lovro.mileusnic/fer/OPPURS/labs/lab2/code/Lab_UART/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab_UART.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Lab_UART.elf
+ 
+arm-none-eabi-size   Lab_UART.elf 
+arm-none-eabi-objdump -h -S  Lab_UART.elf  > "Lab_UART.list"
+   text	   data	    bss	    dec	    hex	filename
+  11000	     20	   1668	  12688	   3190	Lab_UART.elf
+Finished building: default.size.stdout
+ 
+Finished building: Lab_UART.list
+ 
+18:22:19 **** Incremental Build of configuration Debug for project Lab_UART ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Lab_UART.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/RA/lovro.mileusnic/fer/OPPURS/labs/lab2/code/Lab_UART/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab_UART.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Lab_UART.elf
+ 
+arm-none-eabi-size   Lab_UART.elf 
+arm-none-eabi-objdump -h -S  Lab_UART.elf  > "Lab_UART.list"
+   text	   data	    bss	    dec	    hex	filename
+  11000	     20	   1668	  12688	   3190	Lab_UART.elf
+Finished building: default.size.stdout
+ 
+Finished building: Lab_UART.list
+ 
+18:22:34 **** Incremental Build of configuration Debug for project Lab_UART ****
+make -j8 all 
+arm-none-eabi-size   Lab_UART.elf 
+   text	   data	    bss	    dec	    hex	filename
+  11000	     20	   1668	  12688	   3190	Lab_UART.elf
+Finished building: default.size.stdout
+ 
+18:23:05 **** Incremental Build of configuration Debug for project Lab_UART ****
+make -j8 all 
+arm-none-eabi-size   Lab_UART.elf 
+   text	   data	    bss	    dec	    hex	filename
+  11000	     20	   1668	  12688	   3190	Lab_UART.elf
+Finished building: default.size.stdout
+ 

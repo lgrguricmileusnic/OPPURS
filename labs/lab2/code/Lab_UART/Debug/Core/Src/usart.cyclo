@@ -1,0 +1,6 @@
+../Core/Src/usart.c:31:6:MX_USART1_UART_Init	2
+../Core/Src/usart.c:59:6:HAL_UART_MspInit	2
+../Core/Src/usart.c:92:6:HAL_UART_MspDeInit	2
+../Core/Src/usart.c:118:6:USER_UART_IRQHandler	4
+../Core/Src/usart.c:134:6:USART1_SendChar	1
+../Core/Src/usart.c:138:5:USART1_Dequeue	3
