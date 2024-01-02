@@ -47,6 +47,9 @@
 
 /* USER CODE BEGIN PV */
 uint8_t buttonPressed = 0;
+xTaskHandle xTaskHandle1, xTaskHandle2, xTaskHandle3, xTaskHandle4;
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -56,6 +59,8 @@ void MX_FREERTOS_Init(void);
 
 /* USER CODE BEGIN PFP */
 _Noreturn void vTask1(void *pvParameters);
+
+_Noreturn void vTaskN(void *pvParameters);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -131,14 +136,58 @@ void SystemClock_Config(void) {
 }
 
 /* USER CODE BEGIN 4 */
-_Noreturn void vTask1(void *pvParameters) {
+void vTask1(void *pvParameters) {
+    uint32_t tasksCount, led_state;
+
+    tasksCount = 1; // we have only one task at this point
+    led_state = 1;
+
     while (1) {
-        gpio_led_state(LED5_RED_ID, 1); // turn off
-        gpio_led_state(LED6_BLUE_ID, 1); // turn off
-        vTaskDelay(1000 / portTICK_RATE_MS); // delay 1s
-        gpio_led_state(LED5_RED_ID, 0); // turn on
-        gpio_led_state(LED6_BLUE_ID, 0); // turn on
-        vTaskDelay(1000 / portTICK_RATE_MS); // delay 1s
+        vTaskDelay(500 / portTICK_RATE_MS); // LED blinking frequency
+        gpio_led_state(LED4_GREEN_ID, led_state); // green LED
+        led_state = (led_state == 1) ? 0 : 1;
+        if (buttonPressed) {
+            buttonPressed = 0;
+            tasksCount++; // key pressed - add new task
+            if (tasksCount == 5) { // kill all tasks except this
+                vTaskDelete(xTaskHandle2);
+                vTaskDelete(xTaskHandle3);
+                vTaskDelete(xTaskHandle4);
+                gpio_led_state(LED3_ORANGE_ID, 0); // turn off all leds
+                gpio_led_state(LED5_RED_ID, 0);
+                gpio_led_state(LED6_BLUE_ID, 0);
+                tasksCount = 1;
+            } else {
+                switch (tasksCount) {
+                    case 2:
+                        xTaskCreate(vTaskN, " TASK2 ", configMINIMAL_STACK_SIZE,
+                                    (void *) LED3_ORANGE_ID, 1, &xTaskHandle2);
+                        break;
+                    case 3:
+                        xTaskCreate(vTaskN, " TASK3 ", configMINIMAL_STACK_SIZE,
+                                    (void *) LED5_RED_ID, 1, &xTaskHandle3);
+                        break;
+                    case 4:
+                        xTaskCreate(vTaskN, " TASK4 ", configMINIMAL_STACK_SIZE,
+                                    (void *) LED6_BLUE_ID, 1, &xTaskHandle4);
+                        break;
+                }
+            }
+        }
+    }
+}
+
+_Noreturn void vTaskN(void *pvParameters) {
+    uint32_t led_state;
+    uint8_t led_id;
+
+    led_state = 1;
+    led_id = (uint32_t) pvParameters;
+
+    while (1) {
+        vTaskDelay(500 / portTICK_RATE_MS); // LED blinking frequency
+        gpio_led_state(led_id, led_state); // orange LED
+        led_state = (led_state == 1) ? 0 : 1;
     }
 }
 /* USER CODE END 4 */
