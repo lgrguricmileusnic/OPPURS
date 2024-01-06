@@ -19,13 +19,16 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "dma.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "FreeRTOS.h"
 #include "task.h"
-#include "semphr.h"
+#include <string.h>
+
 
 /* USER CODE END Includes */
 
@@ -36,7 +39,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define RX_NEWLINE '\r'
+#define TX_NEWLINE "\r\n"
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,8 +51,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-xTaskHandle xTaskHandleHeartBeat;
+xTaskHandle vTaskHandleHeartBeat, vTaskHandleUARTControls, vTaskHandlePlayback;
 uint8_t buttonPressed;
+uint32_t frequency;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -58,10 +63,16 @@ void MX_FREERTOS_Init(void);
 
 /* USER CODE BEGIN PFP */
 void vTaskHeartBeat(void *pvParameters);
+
+void vTaskUARTControls(void *pvParameters);
+
+void vTaskPlayback(void *pvParameters);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+int check_password(char line[60]);
 
 /* main .c */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
@@ -70,7 +81,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
         buttonPressed = 1;
         HAL_NVIC_EnableIRQ(EXTI0_IRQn);
     } else {
-        __NOP ();
+        __NOP();
     }
 }
 /* USER CODE END 0 */
@@ -80,22 +91,64 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
   * @retval int
   */
 int main(void) {
-    HAL_Init();
-    SystemClock_Config();
-    MX_GPIO_Init();
+    /* USER CODE BEGIN 1 */
     buttonPressed = 0;
+    frequency = 440;
 
+    /* USER CODE END 1 */
 
+    /* MCU Configuration--------------------------------------------------------*/
+
+    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    HAL_Init();
+
+    /* USER CODE BEGIN Init */
+
+    /* USER CODE END Init */
+
+    /* Configure the system clock */
+    SystemClock_Config();
+
+    /* USER CODE BEGIN SysInit */
+
+    /* USER CODE END SysInit */
+
+    /* Initialize all configured peripherals */
+    MX_GPIO_Init();
+    MX_DMA_Init();
+    MX_USART2_UART_Init();
+    /* USER CODE BEGIN 2 */
+
+    HAL_UART_Receive_DMA(&huart2, rx_data, 1);
     xTaskCreate(vTaskHeartBeat,
-                (const char *) "Task heart beat",
+                "TASK HEARTBEAT",
                 configMINIMAL_STACK_SIZE,
                 NULL,
-                1,
-                &xTaskHandleHeartBeat);
+                5,
+                &vTaskHandleHeartBeat);
+    xTaskCreate(vTaskUARTControls,
+                "TASK CONTROLS",
+                configMINIMAL_STACK_SIZE,
+                NULL,
+                5,
+                &vTaskHandleUARTControls);
+    /* USER CODE END 2 */
 
-    vTaskStartScheduler();
+    /* Call init function for freertos objects (in freertos.c) */
+    MX_FREERTOS_Init();
 
-    while (1) {};
+    /* Start scheduler */
+    osKernelStart();
+
+    /* We should never get here as control is now taken by the scheduler */
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    while (1) {
+        /* USER CODE END WHILE */
+
+        /* USER CODE BEGIN 3 */
+    }
+    /* USER CODE END 3 */
 }
 
 /**
@@ -156,6 +209,58 @@ void vTaskHeartBeat(void *pvParameters) {
     }
 }
 
+void vTaskUARTControls(void *pvParameters) {
+    char c;
+    int line_tail;
+    enum State state;
+    char line[60] = {0};
+    const char *welcome_msg = "\rLab 4: Programming industrial embedded systems. Please enter password:\r\n";
+
+    line_tail = 0;
+    state = AUTH;
+    USART2_SendString(welcome_msg);
+    while (1) {
+        if (USART2_ReadChar(&c) != 0) {
+            if (c == RX_NEWLINE) {
+                USART2_SendString(TX_NEWLINE);
+                vTaskDelay(500 / portTICK_PERIOD_MS);
+                switch (state) {
+                    case AUTH:
+                        if (check_password(line)) {
+                            state = CONTROL;
+                            USART2_SendString("OK!\r\n");
+                            xTaskCreate(vTaskPlayback,
+                                        "TASK PLAYBACK",
+                                        configMINIMAL_STACK_SIZE,
+                                        NULL,
+                                        1,
+                                        &vTaskHandlePlayback);
+                        } else {
+                            USART2_SendString(welcome_msg);
+                        }
+                        break;
+                    case CONTROL:
+                        break;
+                }
+                line_tail = 0;
+                memset(line, '\0', 60);
+            } else {
+                line[line_tail] = c;
+                line_tail++;
+                USART2_SendChar(c);
+            }
+        }
+    };
+}
+
+void vTaskPlayback(void *pvParameters) {
+
+};
+
+int check_password(char input[60]) {
+    const char *password = "36523763";
+    return strcmp(input, password) == 0;
+}
 
 /* USER CODE END 4 */
 
