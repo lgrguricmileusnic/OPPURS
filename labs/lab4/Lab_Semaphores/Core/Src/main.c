@@ -87,11 +87,11 @@ int main(void) {
 
 
     xTaskCreate(vTaskHeartBeat,
-                (const char *) "Task high",
+                (const char *) "Task heart beat",
                 configMINIMAL_STACK_SIZE,
                 NULL,
-                2,
-                NULL);
+                1,
+                &xTaskHandleHeartBeat);
 
     vTaskStartScheduler();
 
@@ -138,12 +138,21 @@ void SystemClock_Config(void) {
 /* USER CODE BEGIN 4 */
 
 void vTaskHeartBeat(void *pvParameters) {
-    portTickType t1, t2;
-    gpio_led_state(LED5_RED_ID, 0);
-    while (1) {
-        gpio_led_state(LED5_RED_ID, 1);
+    const portTickType t1 = 100 / portTICK_PERIOD_MS;
+    const portTickType t2 = 200 / portTICK_PERIOD_MS;
+    const portTickType t3 = 100 / portTICK_PERIOD_MS;
+    const portTickType t4 = 600 / portTICK_PERIOD_MS;
 
-        gpio_led_state(LED5_RED_ID, 0);
+    gpio_led_state(LED4_GREEN_ID, 0);
+    while (1) {
+        gpio_led_state(LED4_GREEN_ID, 1);
+        vTaskDelay(t1);
+        gpio_led_state(LED4_GREEN_ID, 0);
+        vTaskDelay(t2);
+        gpio_led_state(LED4_GREEN_ID, 1);
+        vTaskDelay(t3);
+        gpio_led_state(LED4_GREEN_ID, 0);
+        vTaskDelay(t4);
     }
 }
 
